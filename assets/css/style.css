@@ -1,0 +1,47 @@
+header {
+    display: flex;
+    justify-content: space-between;
+    margin: 30px;
+}
+
+section {
+    margin: 0% 25%;
+}
+
+.question {
+    font-size: 300%;
+    text-align: center;
+    margin: 200px 0px 100px;
+}
+
+.options {
+    padding: 10px;
+}
+
+div {
+    text-align: center;
+    margin: 30px;
+}
+
+.start-button {
+    font-size: 200%;
+    padding: 10px 30px;
+    background-color: aqua;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+button {
+    font-size: 175%;
+    padding: 10px;
+    background-color: aqua;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+
+button:hover {
+    background-color: darkcyan;
+    border: 1px solid black;
+    cursor: pointer;
+}
