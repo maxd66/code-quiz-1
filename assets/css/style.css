@@ -35,7 +35,9 @@ div {
     text-align: center;
     margin: 30px;
 }
-
+li {
+    text-align: center;
+}
 
 button {
     font-size: 175%;
