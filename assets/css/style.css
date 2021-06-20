@@ -1,8 +1,21 @@
+/* displays timer and leader board option */
+
 header {
     display: flex;
     justify-content: space-between;
     margin: 30px;
 }
+/* start button style */
+
+.start-button {
+    font-size: 200%;
+    padding: 10px 30px;
+    background-color: aqua;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+/* quesiton and options button style */
 
 section {
     margin: 0% 25%;
@@ -23,13 +36,6 @@ div {
     margin: 30px;
 }
 
-.start-button {
-    font-size: 200%;
-    padding: 10px 30px;
-    background-color: aqua;
-    border: 1px solid black;
-    border-radius: 5px;
-}
 
 button {
     font-size: 175%;
@@ -38,6 +44,8 @@ button {
     border: 1px solid black;
     border-radius: 5px;
 }
+
+/* button reactivity */
 
 
 button:hover {

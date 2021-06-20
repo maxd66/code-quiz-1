@@ -1,5 +1,8 @@
 // defined variables
-var questions = ['What do we say to the God of Death?'];
+var questions = ['What do we say to the God of Death?', 'Where are they?!'];
+var answers = ['Not Today', 'He is at 250 52nd street, and she is on Avenue X, on Cisero'];
+startingIndex = Math.floor(Math.random()*questions.length);
+currentIndex = startingIndex
 
 // common selectors
 var questionEl = document.querySelector('.question');
@@ -16,12 +19,22 @@ function clearStart() {
 
 // currently assigns the question element with the question index 0 from questions array
 function inputQuestion() {
-    questionEl.innerHTML = questions[0];
+    if(currentIndex == questions.length) {
+        currentIndex = 0
+    }
+    questionEl.innerHTML = questions[currentIndex];
 }
 
 // currently places proper button in options section of inner html
 function inputOption() {
-    optionEl.innerHTML = '<li><button>Not Today</button></li>'
+    optionEl.innerHTML = '<li><button>' + answers[currentIndex] + '</button></li>'
+}
+
+function nextQuestion() {
+    currentIndex = currentIndex++
+    if(currentIndex === questions.length) {
+        currentIndex = 0
+    }
 }
 
 // adds event listener to start button to run all initializing functions
@@ -30,6 +43,7 @@ function init() {
         clearStart();
         inputQuestion();
         inputOption();
+        console.log(currentIndex + ' ' + startingIndex)
     });
 }
 
