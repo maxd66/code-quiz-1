@@ -7,6 +7,9 @@ var wrongAnswer2 = ['Can you come back later?', 'They are at KFC', "I'm in it fo
 var wrongAnswer3 = ['Bet lemme grab my things', 'Right behind you.', 'Who are you, why are you asking me this question']
 var startingIndex = genStartIndex();
 var currentIndex = startingIndex;
+var timeLeft = 59;
+var userScore = 0;
+var gameOver = false;
 
 // common selectors
 var timerEl = document.getElementById('timer');
@@ -14,20 +17,21 @@ var questionEl = document.querySelector('.question');
 var startButtonEl = document.querySelector('.start-button-div');
 var questionEl = document.querySelector('.question');
 var optionEl = document.querySelector('.options');
-var listItem1 = document.querySelector('.li1')
-var listItem2 = document.querySelector('.li2')
-var listItem3 = document.querySelector('.li3')
-var listItem4 = document.querySelector('.li4')
+var listItem1 = document.querySelector('.li1');
+var listItem2 = document.querySelector('.li2');
+var listItem3 = document.querySelector('.li3');
+var listItem4 = document.querySelector('.li4');
+var messageEl = document.querySelector('.quickMessage');
 
 // timer function, run when user presses start
 function timer() {
-    var timeLeft = 59;
     //ticks every 1000ms and runs function
     var timeInterval = setInterval(function () {
         //time runs out, clears interval and runs function to tell score and input initials
-      if (timeLeft <= 0) {
+      if (timeLeft <= 0 || gameOver === true) {
         timerEl.textContent = "";
         clearInterval(timeInterval);
+        gameOverFunc();
       } else {
           //subtracts one from time left and displays "Timer: 60"
         timerEl.textContent = "Time: " + timeLeft;
@@ -128,6 +132,7 @@ function nextQuestion() {
     if(currentIndex === startingIndex) {
         // stop timer, save score, go to highlight screen
         console.log('finished');
+        gameOverFunc();
         return
     }else {
         inputQuestion();
@@ -135,6 +140,17 @@ function nextQuestion() {
     }
 }
 
+//displays success message for 2 seconds
+function displaySuccess() {
+    messageEl.textContent = 'Great Job! You got that answer right! 🥳🥳';
+    setTimeout(function() {messageEl.textContent = ''}, 2000)
+}
+
+//displays wrong message for 2 seconds
+function displayWrong() {
+    messageEl.textContent = 'Oof, that one was not right 🤯. Time is ticking! ⏰'
+    setTimeout(function() {messageEl.textContent = ''}, 2000)
+}
 // event listener for options
 optionEl.addEventListener('click', function (event) {
     var element = event.target;
@@ -143,17 +159,33 @@ optionEl.addEventListener('click', function (event) {
     };
     if(element.matches('button')) {
         var userAnswer = element.getAttribute('data-state')
-        console.log(userAnswer);
         if(userAnswer === 'correct') {
+            userScore = userScore + 1
             nextQuestion();
-            // add success message
+            displaySuccess();
         } else {
+            timeLeft = timeLeft - 15
+            displayWrong();
             nextQuestion();
-            //display wrong, subtract from timer
         }
     }
 
 });
+
+function gameOverFunc() {
+    listItem1.innerHTML = '';
+    listItem2.innerHTML = '';
+    listItem3.innerHTML = '';
+    listItem4.innerHTML = '';
+    gameOver = true
+    if(userScore === questions.length) {
+        questionEl.textContent = 'AMAZING JOB! You got ' + userScore + ' out of ' + questions.length + ' right! With ' + timeLeft + ' seconds to spare!'
+    } else if (userScore > 0) {
+    questionEl.textContent = 'Good attempt! You got ' + userScore + ' out of ' + questions.length + ' right! With ' + timeLeft + ' seconds to spare. Try again for a perfect score!'
+    } else {
+        questionEl.textContent = "Good try! You didn't get any of them this time and you had " + timeLeft + " seconds left. Keep studying and bring that score up."
+    }     
+}
 
 // adds event listener to start button to run all initializing functions
 function init() {
