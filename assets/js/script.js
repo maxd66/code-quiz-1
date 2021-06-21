@@ -13,6 +13,8 @@ var gameOver = false;
 
 // common selectors
 var timerEl = document.getElementById('timer');
+var userInputEl = document.querySelector('.user-input');
+var inputEl = document.querySelector('input');
 var questionEl = document.querySelector('.question');
 var startButtonEl = document.querySelector('.start-button-div');
 var questionEl = document.querySelector('.question');
@@ -28,20 +30,22 @@ function timer() {
     //ticks every 1000ms and runs function
     var timeInterval = setInterval(function () {
         //time runs out, clears interval and runs function to tell score and input initials
-      if (timeLeft <= 0 || gameOver === true) {
+      if (timeLeft <= 0) {
         timerEl.textContent = "";
         clearInterval(timeInterval);
         gameOverFunc();
+      } else if(gameOver === true) {
+        timerEl.textContent = "";
+        clearInterval(timeInterval);
       } else {
           //subtracts one from time left and displays "Timer: 60"
         timerEl.textContent = "Time: " + timeLeft;
         timeLeft--;
       }
     }, 1000);
-  }
+}
 
 // generates a random starting index
-
 function genStartIndex() {
     var randIndex = Math.floor(Math.random() * questions.length)
     if(randIndex === questions.length) {
@@ -56,7 +60,7 @@ function clearStart() {
     questionEl.textContent = '';
 };
 
-// currently assigns the question element with the question index 0 from questions array
+// assigns question with matching index in question array
 function inputQuestion() {
     questionEl.innerHTML = questions[currentIndex];
 }
@@ -74,10 +78,9 @@ function shuffle(array) {
     }
   
     return array;
-  }
+}
   
-
-// currently places proper button in options section of inner html
+// places all options according to shuffled order of array
 function inputOption() {
     //clears previous options and creates new, unshuffled array
     listItem1.innerHTML = '';
@@ -172,6 +175,7 @@ optionEl.addEventListener('click', function (event) {
 
 });
 
+//replaces questions and options with end message of score and time left
 function gameOverFunc() {
     listItem1.innerHTML = '';
     listItem2.innerHTML = '';
@@ -184,7 +188,21 @@ function gameOverFunc() {
     questionEl.textContent = 'Good attempt! You got ' + userScore + ' out of ' + questions.length + ' right! With ' + timeLeft + ' seconds to spare. Try again for a perfect score!'
     } else {
         questionEl.textContent = "Good try! You didn't get any of them this time and you had " + timeLeft + " seconds left. Keep studying and bring that score up."
-    }     
+    } 
+    initalInput();   
+}
+
+//creates input box and label for initials
+function initalInput () {
+    var input = document.createElement('input');
+    var label = document.createElement('label');
+    userInputEl.appendChild(label);
+    label.setAttribute('for', 'initials');
+    label.textContent = 'Put your initials here to go on the leaderboard!'
+    userInputEl.appendChild(input);
+    input.setAttribute('type', 'text');
+    input.setAttribute('id', 'initials');
+    input.setAttribute('placeholder', 'Initials');
 }
 
 // adds event listener to start button to run all initializing functions

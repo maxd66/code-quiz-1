@@ -64,3 +64,20 @@ button:hover {
     margin-top: 30px;
     font-size: 125%;
 }
+
+/* input styling */
+.user-input {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+label {
+    margin: 20px;
+    font-size: 125%;
+}
+
+input {
+    width: 100px;
+    margin-bottom: 50px;
+}
