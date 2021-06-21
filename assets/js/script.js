@@ -9,6 +9,7 @@ var startingIndex = genStartIndex();
 var currentIndex = startingIndex;
 
 // common selectors
+var timerEl = document.getElementById('timer');
 var questionEl = document.querySelector('.question');
 var startButtonEl = document.querySelector('.start-button-div');
 var questionEl = document.querySelector('.question');
@@ -20,8 +21,20 @@ var listItem4 = document.querySelector('.li4')
 
 // timer function, run when user presses start
 function timer() {
-    
-}
+    var timeLeft = 59;
+    //ticks every 1000ms and runs function
+    var timeInterval = setInterval(function () {
+        //time runs out, clears interval and runs function to tell score and input initials
+      if (timeLeft <= 0) {
+        timerEl.textContent = "";
+        clearInterval(timeInterval);
+      } else {
+          //subtracts one from time left and displays "Timer: 60"
+        timerEl.textContent = "Time: " + timeLeft;
+        timeLeft--;
+      }
+    }, 1000);
+  }
 
 // generates a random starting index
 
@@ -148,7 +161,7 @@ function init() {
         clearStart();
         inputQuestion();
         inputOption();
-        console.log(currentIndex + ' ' + startingIndex)
+        timer();
     });
 }
 
