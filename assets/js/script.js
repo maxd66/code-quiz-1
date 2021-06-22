@@ -10,6 +10,12 @@ var currentIndex = startingIndex;
 var timeLeft = 59;
 var userScore = 0;
 var gameOver = false;
+var userInitials = '';
+
+// for leader board setting and retrieval
+var scores = [];
+var times = [];
+var initialsArr = [];
 
 // common selectors
 var timerEl = document.getElementById('timer');
@@ -24,6 +30,9 @@ var listItem2 = document.querySelector('.li2');
 var listItem3 = document.querySelector('.li3');
 var listItem4 = document.querySelector('.li4');
 var messageEl = document.querySelector('.quickMessage');
+var olParentEl = document.querySelector('.ol-parent');
+var orderedListEl = document.querySelector('ol');
+var initialsEl = document.querySelector('input');
 
 // timer function, run when user presses start
 function timer() {
@@ -44,6 +53,11 @@ function timer() {
       }
     }, 1000);
 }
+
+document.getElementById('leaderboard-button').addEventListener('click', function () {
+    clearStart();
+    showLeaderboard();
+})
 
 // generates a random starting index
 function genStartIndex() {
@@ -189,8 +203,65 @@ function gameOverFunc() {
     } else {
         questionEl.textContent = "Good try! You didn't get any of them this time and you had " + timeLeft + " seconds left. Keep studying and bring that score up."
     } 
-    initalInput();   
+    initalInput();
+    scores.push(userScore);
+    times.push(timeLeft);
 }
+
+//saves scores to local storage
+function valueSaver() {
+    localStorage.setItem('scores', JSON.stringify(scores));
+    localStorage.setItem('times', JSON.stringify(times));
+    localStorage.setItem('initialsArr', JSON.stringify(initialsArr));
+}
+
+function retrieveStored() {
+    var storedScores = JSON.parse(localStorage.getItem('scores'));
+    
+    if (storedScores !== null) {
+        scores = storedScores;
+    };
+    
+    var storedTimes = JSON.parse(localStorage.getItem('times'));
+    
+    if (storedTimes !== null) {
+        times = storedTimes;
+    };
+    
+    var storedInitials = JSON.parse(localStorage.getItem('initialsArr'));
+    
+    if (storedInitials !== null) {
+        initialsArr = storedInitials;
+    };
+}
+
+function showLeaderboard() {
+    valueSaver();
+    document.getElementById('leaderboard-button').disabled = true
+
+    userInputEl.innerHTML = ''
+    questionEl.textContent = 'Leaderboard';
+    var olEl = document.createElement('ol');
+    olParentEl.appendChild(olEl);
+    olEl.innerHTML = '';
+
+    for(var i = 0; i < initialsArr.length; i++) {
+        var orderedListItem = document.createElement('li');
+        orderedListItem.setAttribute('data-index', scores[i]);
+        orderedListItem.textContent = ('Player: ' + initialsArr[i] + '  Score: ' + scores[i] + '  Time: ' + times[i]);
+        olEl.appendChild(orderedListItem)
+    }
+}
+
+userInputEl.addEventListener('submit', function (event) {
+    event.preventDefault();
+    if(document.getElementById('initials').value.trim() === '') {
+        alert("You didn't put in any initials!")
+        return
+    }
+    initialsArr.push(document.getElementById('initials').value);
+    showLeaderboard();
+})
 
 //creates input box and label for initials
 function initalInput () {
@@ -207,11 +278,14 @@ function initalInput () {
 
 // adds event listener to start button to run all initializing functions
 function init() {
+    retrieveStored();
+
     startButtonEl.addEventListener('click', function () {
         clearStart();
         inputQuestion();
         inputOption();
         timer();
+        document.getElementById('leaderboard-button').disabled = true
     });
 }
 
