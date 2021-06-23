@@ -1,10 +1,10 @@
 // defined variables
 // to input new question, add question and all options in the same index of the subsequent arrays.
-var questions = ['What do we say to the God of Death?', 'Where are they?!', "Why are you helping me? This isn't your problem."];
-var answers = ['Not Today', 'He is at 250 52nd street, and she is on Avenue X, on Cisero', "My friend's problems are my problems."];
-var wrongAnswer1 = ['Sounds Good', 'Who are we talking about?', "I wasn't helping"]
-var wrongAnswer2 = ['Can you come back later?', 'They are at KFC', "I'm in it for the snacks"]
-var wrongAnswer3 = ['Bet lemme grab my things', 'Right behind you.', 'Who are you, why are you asking me this question']
+var questions = ['What do we say to the God of Death?', 'What can we use in Javascript to check for dates and times?', "What should you do when you don't understand something?", "If you want to get a specific element that was clicked in a div, what command should we use?", "What are the steps taken to push something to GitHub?"];
+var answers = ['Not Today', 'Moment.js', "Read the docs, go through activities, and go to office hours.", "event.target for the WIN!", "git add -A, git commit -m, git pull, git push origin main"];
+var wrongAnswer1 = ['Sounds Good', 'A clock', "Give up", "document.queryselector('button').textContent = 'flippy'", "git er done"]
+var wrongAnswer2 = ['Can you come back later?', 'Jquery', "Smash the computer", 'Banana?', 'git commmit, git add, git pull']
+var wrongAnswer3 = ['Bet lemme grab my things', 'Mr timey man', 'Randomly type things you have seen before until something works?', 'Get a second monitor so you can see it.', "first git some snacks,then git to coding"]
 var startingIndex = genStartIndex();
 var currentIndex = startingIndex;
 var timeLeft = 59;
@@ -39,7 +39,7 @@ function timer() {
     //ticks every 1000ms and runs function
     var timeInterval = setInterval(function () {
         //time runs out, clears interval and runs function to tell score and input initials
-      if (timeLeft <= 0) {
+      if (timeLeft <= 0 && gameOver == false) {
         timerEl.textContent = "";
         clearInterval(timeInterval);
         gameOverFunc();
@@ -251,6 +251,23 @@ function showLeaderboard() {
         orderedListItem.textContent = ('Player: ' + initialsArr[i] + '  Score: ' + scores[i] + '  Time: ' + times[i]);
         olEl.appendChild(orderedListItem)
     }
+
+    var clearBtn = document.createElement('button');
+    clearBtn.setAttribute('id', 'clear-leaderboard');
+    clearBtn.textContent = 'Clear Leaderboard';
+    document.querySelector('footer').appendChild(clearBtn);
+    document.getElementById('clear-leaderboard').addEventListener('click', function() {
+        localStorage.clear();
+        olEl.innerHTML = '';
+    })
+
+    var playAgainBtn = document.createElement('button');
+    playAgainBtn.setAttribute('id', 'playAgain');
+    playAgainBtn.textContent = 'Play Again?';
+    document.querySelector('footer').appendChild(playAgainBtn);
+    document.getElementById('playAgain').addEventListener('click', function() {
+        location.reload();
+    })
 }
 
 userInputEl.addEventListener('submit', function (event) {
