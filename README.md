@@ -19,3 +19,5 @@ I worked on the html, css, and JavaScript on my own.
 The website was insired by a mockup provided by UCSD Coding Bootcamp Extension.
 The fonts were provided by GoogleFonts, the questions are called Cinzel. Everything else is called Sansita 
 https://fonts.google.com/
+
+![screenshot of my quiz page](./assets/images/2021-06-22.png)
